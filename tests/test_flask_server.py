@@ -55,31 +55,8 @@ def test_healthz():
     assert pytest.fs.healthz() == ("", 200)
 
 
-@pytest.mark.parametrize(
-    "sentinel_name, webhook, status",
-    [
-        ("sample_sentinel_run", "", 200),
-        ("sample_sentinel_fin", "", 500),
-        ("sample_sentinel_err", "", 500),
-        ("", "", 500),
-        ("sample_sentinel_fin", "sample_webhook", 200),
-        ("sample_sentinel_fin", "", 500),
-    ],
-)
-def test_readyz(
-    m_request,
-    monkeypatch,
-    sentinel_name,
-    webhook,
-    status,
-):
-    monkeypatch.setenv("KUBERNETES_SERVICE_HOST", "127.0.0.1")
-    monkeypatch.setenv("KUBERNETES_SERVICE_PORT", "1234")
-    monkeypatch.setenv("CONNAISSEUR_NAMESPACE", "conny")
-    monkeypatch.setenv("CONNAISSEUR_SENTINEL", sentinel_name)
-    monkeypatch.setenv("CONNAISSEUR_WEBHOOK", webhook)
-
-    assert pytest.fs.readyz() == ("", status)
+def test_readyz():
+    assert pytest.fs.readyz() == ("", 200)
 
 
 @pytest.mark.parametrize(
