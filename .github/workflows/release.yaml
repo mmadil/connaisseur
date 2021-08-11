@@ -48,7 +48,6 @@ jobs:
       - name: Load Docker images
         run: |
           DOCKER_CONTENT_TRUST=1 docker pull $(yq e '.deployment.image' helm/values.yaml)
-          DOCKER_CONTENT_TRUST=1 docker pull $(yq e '.deployment.helmHookImage' helm/values.yaml)
         shell: bash
       - uses: ./.github/actions/integration-test
         with:

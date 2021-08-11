@@ -22,7 +22,6 @@ jobs:
         run: |
           mkdir images
           docker save $(yq e '.deployment.image' helm/values.yaml) -o images/${GITHUB_SHA}_image.tar
-          docker save $(yq e '.deployment.helmHookImage' helm/values.yaml) -o images/${GITHUB_SHA}_hook.tar
       - uses: actions/upload-artifact@v2
         with:
           name: images
@@ -189,7 +188,6 @@ jobs:
         if: ${{ success() || failure() }}
         run: |
           cat trivy-reports/image.txt
-          cat trivy-reports/hook.txt
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
@@ -222,7 +220,6 @@ jobs:
       - name: Load Docker images
         run: |
           docker load -i ${GITHUB_SHA}_image.tar
-          docker load -i ${GITHUB_SHA}_hook.tar
         shell: bash
       - uses: ./.github/actions/integration-test
         with:
