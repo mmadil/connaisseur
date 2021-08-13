@@ -118,7 +118,7 @@ Alternatively to using Helm, you can also run the Makefile for installing, delet
 - `make install` -- Runs the `helm install` command.
 - `make uninstall` -- Switches the namespace to `connaisseur`, uses the `helm uninstall` command and deletes the `connaisseur` namespace.
 - `make annihilate` -- Deletes all resources labeled with `app.kubernetes.io/instance=connaisseur` as well as the `connaisseur` namespace. This command is usually helpful, should the normal `make uninstall` not work.
-- `make docker` -- Builds the *connaisseur* and *connaisseur:helm-hook* (relevant for installing Connaisseur) container images.
+- `make docker` -- Builds the *connaisseur* container image.
 
 ## Detailed configuration
 
