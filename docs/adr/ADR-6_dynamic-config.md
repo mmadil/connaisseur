@@ -8,7 +8,7 @@ Proposed
 
 The configuration of validators are mounted into Connaisseur as a configmap, as it is common practice in the Kubernetes ecosystem. When this configmap is upgraded, say with a `helm upgrade`, the resource itself in Kubernetes is updated accordingly, but that doesn't mean it's automatically updated inside the pods which mounted it. That only occurs once the pods are restarted and until they are the pods still have an old version of the configuration lingering around. This is a fairly unintuitive behavior and the reason why Connaisseur doesn't mount the image policy into its pods. Instead, the pods have access to the kube API and get the image policy dynamically from there. The same could be done for the validator configuration, but there is also another solution.
 
-## Problem 1 - Access to configuraiton
+## Problem 1 - Access to configuration
 
 How should Connaisseur get access to its configuration files?
 
