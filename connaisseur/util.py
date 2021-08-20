@@ -71,7 +71,7 @@ def get_admission_review(
         }
     """
     review = {
-        "apiVersion": "admission.k8s.io/v1beta1",
+        "apiVersion": "admission.k8s.io/v1",
         "kind": "AdmissionReview",
         "response": {
             "uid": uid,

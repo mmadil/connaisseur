@@ -16,7 +16,7 @@ data:
   tls.crt: {{ default ($certs.Cert | b64enc) (include "getInstalledTLSCert" .) }}
   tls.key: {{ default ($certs.Key | b64enc) (include "getInstalledTLSKey" .) }}
 ---
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Chart.Name }}-webhook
@@ -25,10 +25,7 @@ metadata:
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
     {{- if .Values.deployment.failurePolicy }}
-    failurePolicy: {{ .Values.deployment.failurePolicy }}
-    {{- else }}
-    failurePolicy: Fail
-    {{- end }}
+    failurePolicy: Ignore
     clientConfig:
       service:
         name: {{ .Chart.Name }}-svc
@@ -37,9 +34,9 @@ webhooks:
       caBundle: {{ default ($certs.Cert | b64enc) (include "getInstalledTLSCert" .) }}
     rules: []
     sideEffects: None
-    admissionReviewVersions: ["v1beta1"]
+    admissionReviewVersions: ["v1"]
 ---
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Chart.Name }}-webhook
@@ -49,7 +46,7 @@ metadata:
     "helm.sh/hook": pre-upgrade,pre-rollback
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
-    failurePolicy: Fail
+    failurePolicy: Ignore
     clientConfig:
       service:
         name: {{ .Chart.Name }}-svc
@@ -58,9 +55,9 @@ webhooks:
       caBundle: {{ default ($certs.Cert | b64enc) (include "getInstalledTLSCert" .) }}
     rules: []
     sideEffects: None
-    admissionReviewVersions: ["v1beta1"]
+    admissionReviewVersions: ["v1"]
 ---
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Chart.Name }}-webhook
@@ -87,7 +84,7 @@ webhooks:
         apiVersions: ["*"]
         resources: ["pods", "deployments", "replicationcontrollers", "replicasets", "daemonsets", "statefulsets", "jobs", "cronjobs"]
     sideEffects: None
-    admissionReviewVersions: ["v1beta1"]
+    admissionReviewVersions: ["v1"]
     {{- if .Values.namespacedValidation }}
     {{- if .Values.namespacedValidation.enabled }}
     namespaceSelector:
