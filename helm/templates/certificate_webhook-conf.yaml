@@ -24,7 +24,6 @@ metadata:
     {{- include "helm.labels" . | nindent 4 }}
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
-    {{- if .Values.deployment.failurePolicy }}
     failurePolicy: Ignore
     clientConfig:
       service:
