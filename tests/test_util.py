@@ -19,7 +19,7 @@ def test_safe_path_func(path, exception):
 
 
 admission_review_plain = {
-    "apiVersion": "admission.k8s.io/v1beta1",
+    "apiVersion": "admission.k8s.io/v1",
     "kind": "AdmissionReview",
     "response": {
         "uid": 1,
@@ -28,7 +28,7 @@ admission_review_plain = {
     },
 }
 admission_review_msg = {
-    "apiVersion": "admission.k8s.io/v1beta1",
+    "apiVersion": "admission.k8s.io/v1",
     "kind": "AdmissionReview",
     "response": {
         "uid": 1,
@@ -37,7 +37,7 @@ admission_review_msg = {
     },
 }
 admission_review_msg_dm = {
-    "apiVersion": "admission.k8s.io/v1beta1",
+    "apiVersion": "admission.k8s.io/v1",
     "kind": "AdmissionReview",
     "response": {
         "uid": 1,
@@ -47,7 +47,7 @@ admission_review_msg_dm = {
     },
 }
 admission_review_patch = {
-    "apiVersion": "admission.k8s.io/v1beta1",
+    "apiVersion": "admission.k8s.io/v1",
     "kind": "AdmissionReview",
     "response": {
         "uid": 1,
@@ -61,7 +61,7 @@ admission_review_patch = {
     },
 }
 admission_review_msg_patch = {
-    "apiVersion": "admission.k8s.io/v1beta1",
+    "apiVersion": "admission.k8s.io/v1",
     "kind": "AdmissionReview",
     "response": {
         "uid": 1,

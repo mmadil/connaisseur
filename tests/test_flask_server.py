@@ -79,7 +79,7 @@ def test_create_logging_msg(msg, kwargs, out):
         (
             0,
             {
-                "apiVersion": "admission.k8s.io/v1beta1",
+                "apiVersion": "admission.k8s.io/v1",
                 "kind": "AdmissionReview",
                 "response": {
                     "uid": "3a3a7b38-5512-4a85-94bb-3562269e0a6a",
@@ -101,7 +101,7 @@ def test_create_logging_msg(msg, kwargs, out):
         (
             1,
             {
-                "apiVersion": "admission.k8s.io/v1beta1",
+                "apiVersion": "admission.k8s.io/v1",
                 "kind": "AdmissionReview",
                 "response": {
                     "uid": "0c3331b6-1812-11ea-b3fc-02897404852e",
@@ -115,7 +115,7 @@ def test_create_logging_msg(msg, kwargs, out):
         (
             6,
             {
-                "apiVersion": "admission.k8s.io/v1beta1",
+                "apiVersion": "admission.k8s.io/v1",
                 "kind": "AdmissionReview",
                 "response": {
                     "uid": "3a3a7b38-5512-4a85-94bb-3562269e0a6a",
