@@ -93,6 +93,14 @@ kubectl run hello-world --image=docker.io/hello-world
 > pod/hello-world created
 ```
 
+### Upgrade
+
+Should you want to make some adjustments to the Connaisseur configuration while Connaisseur is already running, Helm can be used to upgrade the current release.
+
+```bash
+helm upgrade connaisseur helm -n connaisseur --wait
+```
+
 ### Delete
 
 Just like for installation, Helm can also be used to delete Connaisseur from your cluster:
@@ -116,6 +124,7 @@ In case of major releases, the configuration structure might change which can ca
 Alternatively to using Helm, you can also run the Makefile for installing, deleting and more. Here the available commands:
 
 - `make install` -- Runs the `helm install` command.
+- `make upgrade` -- Runs the `helm upgrade` command.
 - `make uninstall` -- Switches the namespace to `connaisseur`, uses the `helm uninstall` command and deletes the `connaisseur` namespace.
 - `make annihilate` -- Deletes all resources labeled with `app.kubernetes.io/instance=connaisseur` as well as the `connaisseur` namespace. This command is usually helpful, should the normal `make uninstall` not work.
 - `make docker` -- Builds the *connaisseur* container image.
