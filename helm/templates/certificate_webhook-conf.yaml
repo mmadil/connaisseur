@@ -45,7 +45,7 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install, post-upgrade, post-rollback
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
     {{- if .Values.deployment.failurePolicy }}
