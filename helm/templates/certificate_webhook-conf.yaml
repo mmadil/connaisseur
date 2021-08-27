@@ -22,6 +22,9 @@ metadata:
   name: {{ .Chart.Name }}-webhook
   labels:
     {{- include "helm.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
     failurePolicy: Ignore
@@ -42,28 +45,7 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": pre-upgrade,pre-rollback
-webhooks:
-  - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
-    failurePolicy: Ignore
-    clientConfig:
-      service:
-        name: {{ .Chart.Name }}-svc
-        namespace: {{ .Release.Namespace }}
-        path: /mutate
-      caBundle: {{ default ($certs.Cert | b64enc) (include "getInstalledTLSCert" .) }}
-    rules: []
-    sideEffects: None
-    admissionReviewVersions: ["v1", "v1beta1"]
----
-apiVersion: admissionregistration.k8s.io/v1
-kind: MutatingWebhookConfiguration
-metadata:
-  name: {{ .Chart.Name }}-webhook
-  labels:
-    {{- include "helm.labels" . | nindent 4 }}
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade,post-rollback
+    "helm.sh/hook": post-install
 webhooks:
   - name: {{ .Chart.Name }}-svc.{{ .Release.Namespace }}.svc
     {{- if .Values.deployment.failurePolicy }}

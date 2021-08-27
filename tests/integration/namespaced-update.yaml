@@ -22,9 +22,7 @@ policy:
 - pattern: "k8s.gcr.io/*:*"
   validator: allow
 - pattern: "docker.io/securesystemsengineering/connaisseur:*"
-  validator: dockerhub
-  with:
-    trust_root: sse
+  validator: allow
 
 namespacedValidation:
   enabled: true
