@@ -101,9 +101,9 @@ policy:
 - pattern: "k8s.gcr.io/*:*"
   validator: allow
 - pattern: "docker.io/securesystemsengineering/*:*"
-  validator: dockerhub_basics
-  with:
-    trust_root: securesystemsengineering_official
+  validator: allow
+  # with:
+  #   trust_root: securesystemsengineering_official
 
 # in detection mode, deployment will not be denied, but only prompted
 # and logged. this allows testing the functionality without
