@@ -1,7 +1,7 @@
 NAMESPACE = connaisseur
 IMAGE := $(shell yq e '.deployment.image' helm/values.yaml)
 HELM_HOOK_IMAGE := $(shell yq e '.deployment.helmHookImage' helm/values.yaml)
-COSIGN_VERSION = 1.0.0
+COSIGN_VERSION = 1.1.0
 
 .PHONY: all docker install unistall upgrade annihilate
 
