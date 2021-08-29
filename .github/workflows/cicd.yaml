@@ -271,9 +271,11 @@ jobs:
           else
             echo 'Successfully denied usage of unsigned image'
           fi
+      - name: Set base Connaisseur Version
+        run: |
+          echo CONNAISSEUR_IMAGE=$(yq e '.deployment.image' helm/values.yaml) >> $GITHUB_ENV
       - name: Migration step before Upgrade fix
         run: |
-          CONNAISSEUR_IMAGE=$(yq e '.deployment.image' helm/values.yaml)
           if [[ ${CONNAISSEUR_IMAGE} == "securesystemsengineering/connaisseur:v2.1.2" ]]; then
             make uninstall
           fi
