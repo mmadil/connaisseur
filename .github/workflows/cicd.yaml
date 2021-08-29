@@ -261,7 +261,7 @@ jobs:
       - name: Get image name & version
         run: |
           kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
-      - name: TEST STEP: need uninstall
+      - name: TEST STEP - need uninstall
         run: |
           make uninstall
       - uses: actions/checkout@v2
