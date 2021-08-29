@@ -261,6 +261,16 @@ jobs:
       - name: Get image name & version
         run: |
           kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
+      - name: Test denial of unsigned nv1 image
+        run: |
+          kubectl run pod --image=securesystemsengineering/testimage:unsigned >output.log 2>&1 || true
+          if [[ ! "$(cat output.log)" =~ 'Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.' ]]; then
+            echo 'Failed to deny unsigned image or failed with unexpected error. Output:'
+            cat output.log
+            exit 1
+          else
+            echo 'Successfully denied usage of unsigned image'
+          fi
       - name: TEST STEP - need uninstall
         run: |
           make uninstall
@@ -278,6 +288,16 @@ jobs:
       - name: Get image name & version
         run: |
           kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
+      - name: Test denial of unsigned nv1 image
+        run: |
+          kubectl run pod --image=securesystemsengineering/testimage:unsigned >output.log 2>&1 || true
+          if [[ ! "$(cat output.log)" =~ 'Unable to find signed digest for image docker.io/securesystemsengineering/testimage:unsigned.' ]]; then
+            echo 'Failed to deny unsigned image or failed with unexpected error. Output:'
+            cat output.log
+            exit 1
+          else
+            echo 'Successfully denied usage of unsigned image'
+          fi
       - name: Uninstall Connaisseur
         run: |
           make uninstall
