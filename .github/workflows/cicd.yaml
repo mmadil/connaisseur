@@ -234,6 +234,13 @@ jobs:
           sudo apt update
           sudo apt install bash -y
         shell: bash
+      - uses: actions/download-artifact@v2
+        with:
+          name: images
+      - name: Load Docker images
+        run: |
+          docker load -i ${GITHUB_SHA}_image.tar
+        shell: bash
       - name: Create KinD cluster
         run: |
           GO111MODULE="on" go get sigs.k8s.io/kind
@@ -241,13 +248,6 @@ jobs:
         shell: bash
       - name: Check KinD cluster
         run: kubectl get nodes
-        shell: bash
-      - uses: actions/download-artifact@v2
-        with:
-          name: images
-      - name: Load Docker images
-        run: |
-          docker load -i ${GITHUB_SHA}_image.tar
         shell: bash
       - uses: actions/checkout@v2
         with:
@@ -258,14 +258,26 @@ jobs:
       - name: Install Connaisseur (master)
         run: |
           make install
+      - name: Get image name & version
+        run: |
+          kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
+      - name: TEST STEP: need uninstall
+        run: |
+          make uninstall
       - uses: actions/checkout@v2
       - name: Add images to KinD
         run: |
           kind load docker-image $(yq e '.deployment.image' helm/values.yaml)
         shell: bash
-      - name: Upgrade Connaisseur to branches
+      - name: Configure Connaisseur (branch)
         run: |
-          make upgrade
+          yq e '.deployment.imagePullPolicy = "IfNotPresent"' -i helm/values.yaml
+      - name: Upgrade Connaisseur to current branch
+        run: |
+          make install
+      - name: Get image name & version
+        run: |
+          kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
       - name: Uninstall Connaisseur
         run: |
           make uninstall
