@@ -224,3 +224,49 @@ jobs:
         with:
           integration-test-script: ${{ matrix.integration-test-script }}
 
+  upgrade-test:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Install yq and bash
+        run: |
+          sudo snap install yq
+          sudo apt update
+          sudo apt install bash -y
+        shell: bash
+      - name: Create KinD cluster
+        run: |
+          GO111MODULE="on" go get sigs.k8s.io/kind
+          kind create cluster --wait 120s
+        shell: bash
+      - name: Check KinD cluster
+        run: kubectl get nodes
+        shell: bash
+      - uses: actions/download-artifact@v2
+        with:
+          name: images
+      - name: Load Docker images
+        run: |
+          docker load -i ${GITHUB_SHA}_image.tar
+        shell: bash
+      - uses: actions/checkout@v2
+        with:
+          ref: 'master'
+      - name: Configure Connaisseur (master)
+        run: |
+          yq e '.detectionMode = "true"' -i helm/values.yaml
+      - name: Install Connaisseur (master)
+        run: |
+          make install
+      - uses: actions/checkout@v2
+      - name: Add images to KinD
+        run: |
+          kind load docker-image $(yq e '.deployment.image' helm/values.yaml)
+        shell: bash
+      - name: Upgrade Connaisseur to branches
+        run: |
+          make upgrade
+      - name: Uninstall Connaisseur
+        run: |
+          make uninstall
+
