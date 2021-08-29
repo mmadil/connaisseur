@@ -271,9 +271,12 @@ jobs:
           else
             echo 'Successfully denied usage of unsigned image'
           fi
-      - name: TEST STEP - need uninstall
+      - name: Migration step before Upgrade fix
         run: |
-          make uninstall
+          CONNAISSEUR_IMAGE=$(yq e '.deployment.image' helm/values.yaml)
+          if [[ ${CONNAISSEUR_IMAGE} == "securesystemsengineering/connaisseur:v2.1.2" ]]; then
+            make uninstall
+          fi
       - uses: actions/checkout@v2
       - name: Add images to KinD
         run: |
@@ -284,7 +287,11 @@ jobs:
           yq e '.deployment.imagePullPolicy = "IfNotPresent"' -i helm/values.yaml
       - name: Upgrade Connaisseur to current branch
         run: |
-          make install
+          if [[ ${CONNAISSEUR_IMAGE} == "securesystemsengineering/connaisseur:v2.1.2" ]]; then
+            make install
+          else
+            make upgrade
+          fi
       - name: Get image name & version
         run: |
           kubectl get pods -n connaisseur -o jsonpath="{.items[*].spec.containers[*].image}"
