@@ -95,7 +95,7 @@ kubectl run hello-world --image=docker.io/hello-world
 
 ### Upgrade
 
-Should you want to make some adjustments to the Connaisseur configuration while Connaisseur is already running, Helm can be used to upgrade the current release.
+The configuration of a running Connaisseur instance can be  updated by a Helm upgrade of the current release:
 
 ```bash
 helm upgrade connaisseur helm -n connaisseur --wait

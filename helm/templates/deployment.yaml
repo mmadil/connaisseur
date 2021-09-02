@@ -11,10 +11,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ include "helm.name" . }}
       app.kubernetes.io/instance: {{ .Chart.Name }}
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
   template:
     metadata:
       labels:
