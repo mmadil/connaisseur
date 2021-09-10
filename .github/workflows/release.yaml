@@ -73,8 +73,8 @@ jobs:
         git config user.email "connaisseur@securesystems.dev"
         git clone https://github.com/sse-secure-systems/connaisseur.git
         cd connaisseur
-        git checkout gh-pages
         helm package ./helm
+        git checkout gh-pages
         mkdir -p charts
         mv connaisseur*.tgz ./charts
         cd charts
