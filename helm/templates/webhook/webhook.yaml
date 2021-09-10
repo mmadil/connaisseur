@@ -22,7 +22,15 @@ webhooks:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]
         apiVersions: ["*"]
+        {{- if .context.Values.automaticChildApproval }}
+        {{- if .context.Values.automaticChildApproval.enabled }}
         resources: ["pods", "deployments", "replicationcontrollers", "replicasets", "daemonsets", "statefulsets", "jobs", "cronjobs"]
+        {{- else }}
+        resources: ["pods"]
+        {{- end }}
+        {{- else }}
+        resources: ["pods", "deployments", "replicationcontrollers", "replicasets", "daemonsets", "statefulsets", "jobs", "cronjobs"]
+        {{- end }}
     sideEffects: None
     {{- if .context.Values.namespacedValidation }}
     {{- if .context.Values.namespacedValidation.enabled }}
